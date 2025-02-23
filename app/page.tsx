@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import { FaRegCommentDots } from "react-icons/fa";
 import AIChatSidebar from "@/components/AIChatSidebar";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 // Type pour les données brutes de Binance
 interface BinanceKline {
@@ -17,12 +18,11 @@ interface BinanceKline {
   3: string;    // Low
   4: string;    // Close
   5: string;    // Volume
-  // ... autres champs si nécessaires
 }
 
 export default function Home() {
   const [chartData, setChartData] = useState<CandlestickData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [marketInfo, setMarketInfo] = useState({
     high: 0,
@@ -133,14 +133,8 @@ export default function Home() {
         />
       ) : (
         <>
-          <div className={styles.iacontainer}>
-            <button 
-              className={styles.iaButton}
-              onClick={handleChatOpen}
-            >
-              <FaRegCommentDots />
-            </button>
-          </div>
+          <Header handleChatOpen={handleChatOpen} />
+          
           <div className={styles.chartContainer}>
             <TradingChart 
               data={chartData} 
@@ -156,6 +150,7 @@ export default function Home() {
             onClose={() => setIsChatOpen(false)} 
             data={chartData}
             marketInfo={marketInfo}
+            language={language}
           />
           <Footer />
         </>

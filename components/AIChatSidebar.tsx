@@ -26,6 +26,7 @@ interface AIChatSidebarProps {
     lastPrice: number;
     change24h: number;
   };
+  language: string;
 }
 
 // Ajoutez cette interface pour le type de reconnaissance vocale
@@ -62,11 +63,11 @@ interface SpeechRecognitionEvent {
   resultIndex: number;
 }
 
-export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIChatSidebarProps) {
+export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, language }: AIChatSidebarProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Bonjour, je suis l\'assistant TradeMate. Vous pouvez simplement me demander conseil, un signal de trading ou me poser des questions sur la finance.'
+      content: language === 'en' ? 'Hello, I am the TradeMate assistant. You can simply ask me for advice, a trading signal or ask me questions about finance.' : 'Bonjour, je suis l\'assistant TradeMate. Vous pouvez simplement me demander conseil, un signal de trading ou me poser des questions sur la finance.'
     }
   ]);
   const [input, setInput] = useState('');
@@ -325,7 +326,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
         ))}
         {isLoading && (
           <div className={styles.loading}>
-            L&lsquo;assistant réfléchit...
+            {language === 'en' ? 'The assistant is thinking...' : 'L\'assistant réfléchit...'}
           </div>
         )}
       </div>
@@ -335,7 +336,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Posez votre question..."
+          placeholder={language === 'en' ? 'Ask your question...' : 'Posez votre question...'}
           className={styles.input}
           disabled={isLoading}
         />
@@ -343,7 +344,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
           type="button" 
           onClick={toggleListening}
           className={styles.voiceButton}
-          title={isListening ? "Arrêter la dictée" : "Commencer la dictée"}
+          title={isListening ? (language === 'en' ? "Stop dictation" : "Arrêter la dictée") : (language === 'en' ? "Start dictation" : "Commencer la dictée")}
           disabled={isLoading}
         >
           <FaMicrophone color={isListening ? '#00ff00' : '#000'} />
@@ -353,7 +354,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
           className={styles.sendButton}
           disabled={isLoading}
         >
-          Envoyer
+          {language === 'en' ? 'Send' : 'Envoyer'}
         </button>
       </form>
     </div>

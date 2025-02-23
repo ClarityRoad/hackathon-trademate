@@ -1,0 +1,33 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.iacontainer {
+    position: fixed;
+    top: 25px;
+    right: 20px;
+  }
+  
+  .iaButton {
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .iaButton:hover {
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+  
+  }

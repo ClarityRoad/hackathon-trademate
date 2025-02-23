@@ -137,38 +137,28 @@ export default function TradingChart({ data, marketInfo, language, voice, onLang
 
   return (
     <div className={styles.tradingContainer}>
-       <div className={styles.voiceCard}>
-        <VoiceControls 
-            price={marketInfo.lastPrice}
-            change24h={marketInfo.change24h}
-            language={language}
-            voice={voice}
-            onLanguageChange={onLanguageChange}
-            onVoiceChange={onVoiceChange}
-          />
-        </div>
-      <div className={styles.marketInfo}>
-        <div className={styles.infoCard}>
-          <h3>Informations du marché</h3>
+        <div className={styles.marketInfo}>
+          <div className={styles.infoCard}>
+            <h3>{language === 'en' ? 'Market Information' : 'Informations du marché'}</h3>
           <div className={styles.infoGrid}>
             <div className={styles.infoItem}>
-              <span>Prix actuel</span>
+              <span>{language === 'en' ? 'Current Price' : 'Prix actuel'}</span>
               <span className={styles.value}>${marketInfo.lastPrice.toFixed(2)}</span>
             </div>
             <div className={styles.infoItem}>
-              <span>Plus Haut</span>
+              <span>{language === 'en' ? 'High' : 'Plus Haut'}</span>
               <span className={styles.value}>${marketInfo.high.toFixed(2)}</span>
             </div>
             <div className={styles.infoItem}>
-              <span>Plus Bas</span>
+              <span>{language === 'en' ? 'Low' : 'Plus Bas'}</span>
               <span className={styles.value}>${marketInfo.low.toFixed(2)}</span>
             </div>
             <div className={styles.infoItem}>
-              <span>Volume 24h</span>
+              <span>{language === 'en' ? 'Volume 24h' : 'Volume 24h'}</span>
               <span className={styles.value}>{marketInfo.volume.toFixed(2)}</span>
             </div>
             <div className={styles.infoItem}>
-              <span>Variation 1h</span>
+              <span>{language === 'en' ? 'Variation 1h' : 'Variation 1h'}</span>
               <span className={`${styles.value} ${marketInfo.change24h >= 0 ? styles.positive : styles.negative}`}>
                 {marketInfo.change24h.toFixed(2)}%
               </span>
@@ -185,6 +175,8 @@ export default function TradingChart({ data, marketInfo, language, voice, onLang
         <TradingSimulation 
           currentPrice={marketInfo.lastPrice} 
           onPositionChange={handlePositionChange}
+          data={data}
+          marketInfo={marketInfo}
         />
       </div>
       </div>

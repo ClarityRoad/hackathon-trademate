@@ -27,7 +27,7 @@
   }
   
   .infoCard {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 28px;
@@ -104,7 +104,7 @@
     width: auto;
     min-width: fit-content;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #1a1a1a, #333);
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
     color: white;
     border-radius: 14px;
     font-weight: 500;
@@ -112,14 +112,12 @@
     transition: all 0.3s ease;
     font-size: 0.95rem;
     height: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
     white-space: nowrap;
 }
   
   .voiceButton:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    background: linear-gradient(135deg, #333, #1a1a1a);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
   }
   
   .voiceButton.active {
@@ -128,22 +126,23 @@
   
   .autoMode {
     position: relative;
-    background: linear-gradient(135deg, #1a1a1a, #333);
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
+
     border-radius: 14px;
     padding: 12px 24px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
     width: auto;
     min-width: fit-content;
     height: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .autoMode:hover {
-    background: linear-gradient(135deg, #333, #1a1a1a);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
   }
   
   .autoModeHeader {
-   
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
+
     display: flex;
     align-items: center;
     gap: 12px;
@@ -186,7 +185,7 @@
     background: #fff;
     border-radius: 10px;
     position: relative;
-    border: 1px solid #000;
+    border: 1px solid #ffffff;
   }
   
   .toggleThumb {
@@ -215,7 +214,7 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background: linear-gradient(135deg, #1a1a1a, #333);
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
     border-radius: 14px;
     padding: 12px 24px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
@@ -346,8 +345,12 @@
   }
   
   .chartSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 24px;
@@ -415,7 +418,7 @@
 
   .closeButton {
     padding: 12px 24px;
-    background: linear-gradient(135deg, #1a1a1a, #333);
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
     color: white;
     border: none;
     border-radius: 8px;
@@ -425,6 +428,6 @@
   }
 
   .closeButton:hover {
-    background: linear-gradient(135deg, #333, #1a1a1a);
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
     transform: translateY(-2px);
   }

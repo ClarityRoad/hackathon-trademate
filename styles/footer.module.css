@@ -10,11 +10,12 @@
 
 .footer p {
     font-size: 0.8rem;
-    color: #000;
+    color: #ffffff;
 }
 
 .footer a {
-    color: #000;
+    cursor: pointer;
+    color: #ffffff;
     text-decoration: underline;
     margin: 0px 0.2rem;
 }

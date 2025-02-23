@@ -45,7 +45,9 @@ export default function Loader({ onLoadingComplete, currentPrice }: LoaderProps)
       <div className={styles.loader}>
         <h1 className={styles.title}>TradeMate AI</h1>
         <p className={styles.subtitle}>Powered by ElevenLabs & OpenAI</p>
-        <p className={styles.subtitle}>For Hackathon ElevenLabs x a16z Hackathon — Online Version</p>
+        <p className={styles.subtitle}>
+          Made for the ElevenLabs x a16z Hackathon
+        </p>
         
         <div className={styles.progressBar}>
           <div 
@@ -54,34 +56,46 @@ export default function Loader({ onLoadingComplete, currentPrice }: LoaderProps)
           />
         </div>
         <div className={styles.progressText}>
-          {progress}%
+          {progress}% {progress === 100 ? '- Ready!' : '- Loading...'}
         </div>
 
         {isLoaded && (
           <div className={styles.startSection}>
-            <select className={styles.languageSelect} onChange={(e) => setLanguage(e.target.value)}>
-              <option value="">Select Language</option>
-              <option value="en">English</option>
-              <option value="fr">French</option>
+            <select 
+              className={styles.languageSelect} 
+              onChange={(e) => setLanguage(e.target.value)}
+              value={language}
+            >
+              <option value="">Choose Your Language</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 French</option>
             </select>
-            {language !== '' ? (
+            
+            {language ? (
               <button 
                 className={styles.playButton}
                 onClick={handleStart}
-            >
-              <FaPlay className={styles.playIcon} />
-              {isLoading ? "Loading..." : "Start Trading"}
-            </button>
+                disabled={isLoading}
+              >
+                <FaPlay className={styles.playIcon} />
+                {isLoading ? "Initializing..." : "Start Trading"}
+              </button>
             ) : (
-              <p>Please select a language</p>
+              <p className={styles.audioWarning}>
+                Please select your preferred language to continue
+              </p>
             )}
+            
             <p className={styles.audioWarning}>
-              🔊 This application uses voice feedback.<br /> Please ensure your sound is enabled.
+              🔊 Enhanced Experience with Voice Feedback<br />
+              Make sure your audio is enabled for the best trading experience
             </p>
           </div>
-
         )}
-        <p className={styles.madeWithLove}>Made with ❤️ by <a href="https://github.com/ClarityRoad" style={{textDecoration: 'underline'}}>ClarityRoad</a>  © {new Date().getFullYear()}</p>
+        
+        <p className={styles.madeWithLove}>
+          Crafted with ❤️ by <a href="https://github.com/ClarityRoad" target="_blank" rel="noopener noreferrer">ClarityRoad</a> © {new Date().getFullYear()}
+        </p>
       </div>
     </div>
   );

@@ -102,22 +102,29 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
     setAutoTradingModal(!autoTradingModal);
   };
 
+  // Market Analysis Modal
+  const [marketAnalysisModal, setMarketAnalysisModal] = useState(false);
+  const handleMarketAnalysisModal = () => {
+    setMarketAnalysisModal(!marketAnalysisModal);
+  };
+
   // UseEffect pour fermer la modal si on clique en dehors
   useEffect(() => {
     const handleClickOutside = () => {
-      if (autoTradingModal) {
+      if (autoTradingModal || marketAnalysisModal) {
         setAutoTradingModal(false);
+        setMarketAnalysisModal(false);
       }
     };
 
-    if (autoTradingModal) {
+    if (autoTradingModal || marketAnalysisModal ) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [autoTradingModal]);
+  }, [autoTradingModal, marketAnalysisModal]);
 
   return (
     <>
@@ -131,6 +138,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
           <option value="en">English</option>
           <option value="fr">Français</option>
         </select>
+        
         {language === 'en' ? (
         <select 
           className={styles.voiceButton} 
@@ -238,7 +246,10 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
                 <label className={styles.checkboxLabel}>
                   <input 
                     type="checkbox" 
-                    onChange={(e) => setMarketAnalysis(e.target.checked)}
+                    onChange={(e) => {
+                      setMarketAnalysis(e.target.checked);
+                      handleMarketAnalysisModal();
+                    }}
                     checked={marketAnalysis}
                     className={styles.checkboxInput}
                   />
@@ -268,6 +279,43 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
               <button 
                 className={styles.closeButton} 
                 onClick={() => setAutoTradingModal(false)}
+              >
+                {language === 'en' ? 'Close' : 'Fermer'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+       {marketAnalysisModal && (
+        <div className={styles.autoTradingModal}>
+          <div className={styles.autoTradingModalContent}>
+            <div className={styles.autoTradingDescription}>
+              <h4>{language === 'en' ? 'Market Analysis' : 'Analyse de Marché'}</h4>
+              <p>
+                {language === 'en' 
+                  ? `The AI will provide detailed market analysis every ${intervalMinutes} minutes, including:
+
+                    • Technical indicators (RSI, MACD, Moving Averages)
+                    • Market sentiment analysis
+                    • Support and resistance levels
+                    • Volume analysis
+                    • Trend identification
+                    
+                    This analysis will be delivered through voice updates, helping you understand market conditions and potential trading opportunities.`
+                  : `L'IA fournira une analyse détaillée du marché toutes les ${intervalMinutes} minutes, comprenant :
+
+                    • Indicateurs techniques (RSI, MACD, Moyennes Mobiles)
+                    • Analyse du sentiment du marché
+                    • Niveaux de support et de résistance
+                    • Analyse des volumes
+                    • Identification des tendances
+                    
+                    Cette analyse sera transmise via les mises à jour vocales, vous aidant à comprendre les conditions du marché et les opportunités potentielles.`
+                }
+              </p>
+              <button 
+                className={styles.closeButton} 
+                onClick={() => setMarketAnalysisModal(false)}
               >
                 {language === 'en' ? 'Close' : 'Fermer'}
               </button>

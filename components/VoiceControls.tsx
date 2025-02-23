@@ -98,30 +98,44 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
   // Auto Trading Modal
   const [autoTradingModal, setAutoTradingModal] = useState(false);
   const handleAutoTradingModal = () => {
-    setAutoTradingModal(!autoTradingModal);
+    if (!autoTrading) {
+      setAutoTradingModal(true);
+    }
   };
 
   // Market Analysis Modal
   const [marketAnalysisModal, setMarketAnalysisModal] = useState(false);
   const handleMarketAnalysisModal = () => {
-    setMarketAnalysisModal(!marketAnalysisModal);
+    if (!marketAnalysis) {
+      setMarketAnalysisModal(true);
+    }
   };
 
   // UseEffect pour fermer la modal si on clique en dehors
   useEffect(() => {
-    const handleClickOutside = () => {
-      if (autoTradingModal || marketAnalysisModal) {
+    // Ajouter/Supprimer la classe pour bloquer le scroll
+    if (autoTradingModal || marketAnalysisModal) {
+      document.body.classList.add(styles.bodyLock);
+    } else {
+      document.body.classList.remove(styles.bodyLock);
+    }
+
+    // Gestionnaire de clic en dehors de la modale
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.classList.contains(styles.autoTradingModal)) {
         setAutoTradingModal(false);
         setMarketAnalysisModal(false);
       }
     };
 
-    if (autoTradingModal || marketAnalysisModal ) {
+    if (autoTradingModal || marketAnalysisModal) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.body.classList.remove(styles.bodyLock);
     };
   }, [autoTradingModal, marketAnalysisModal]);
 
@@ -262,7 +276,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
       </div>
       {autoTradingModal && (
         <div className={styles.autoTradingModal}>
-          <div className={styles.autoTradingModalContent}>
+          <div className={styles.autoTradingModalContent} onClick={e => e.stopPropagation()}>
             <div className={styles.autoTradingDescription}>
               <h4>{language === 'en' ? 'Auto Trading' : 'Trading automatique'}</h4>
               <p>
@@ -287,7 +301,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
       )}
        {marketAnalysisModal && (
         <div className={styles.autoTradingModal}>
-          <div className={styles.autoTradingModalContent}>
+          <div className={styles.autoTradingModalContent} onClick={e => e.stopPropagation()}>
             <div className={styles.autoTradingDescription}>
               <h4>{language === 'en' ? 'Market Analysis' : 'Analyse de Marché'}</h4>
               <p>

@@ -371,63 +371,76 @@
 
 
   .autoTradingModal {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
   }
 
   .autoTradingModalContent {
-    width: 50%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-    background: rgba(255, 255, 255, 1);
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease-out;
   }
 
   .autoTradingDescription {
-    padding: 32px;
-    text-align: center;
-    max-width: 600px;
+    color: #1a1a1a;
   }
 
   .autoTradingDescription h4 {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    color: #1a1a1a;
+    color: #2563eb;
   }
 
   .autoTradingDescription p {
     font-size: 1rem;
     line-height: 1.6;
-    color: #666;
     white-space: pre-line;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .closeButton {
-    padding: 12px 24px;
-    background: linear-gradient(45deg, #2563eb, #7c3aed);
-    color: white;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #f3f4f6;
     border: none;
+    padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
   }
 
   .closeButton:hover {
-    background: linear-gradient(135deg, #7c3aed, #2563eb);
-    transform: translateY(-2px);
+    background: #e5e7eb;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Pour empêcher le scroll du body quand la modale est ouverte */
+  .bodyLock {
+    overflow: hidden;
   }

@@ -108,7 +108,7 @@
   left: 10;
   cursor: pointer;
   font-size: 20px;
-  margin-left: 10px;
+  margin-left: 5px;
 } 
 
 .copyIcon {
@@ -117,7 +117,7 @@
   left: 40;
   cursor: pointer;
   font-size: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .copyIconRotate {

@@ -96,7 +96,6 @@ Rules:
       const responseData = await response.data;
       console.log('📡 API Response received:', responseData);
       
-      // Parse the response to create a position
       if (responseData && responseData.signal) {
         try {
           console.log('🎯 Processing trading signal:', responseData.signal);
@@ -105,9 +104,8 @@ Rules:
           
           if (matches) {
             console.log('✅ Valid signal format detected, creating position...');
-            const [_, type, entryPrice, takeProfit, stopLoss] = matches;
+            const [ type, entryPrice, takeProfit, stopLoss] = matches;
             
-            // Log parsed values for debugging
             console.log('🔍 Parsed values:', {
               type,
               entryPrice: Number(entryPrice),
@@ -125,7 +123,7 @@ Rules:
             };
             
             console.log('📈 New position created:', newPosition);
-            setTradeIAMsg(newPosition.type);
+            setTradeIAMsg("Trading opportunity detected!");
             setActivePosition(newPosition);
             
             const message = `The AI has detected a ${newPosition.type} opportunity. The entry price is ${newPosition.entryPrice}, the take profit is ${newPosition.takeProfit} and the stop loss is ${newPosition.stopLoss}.`;
@@ -175,7 +173,6 @@ Rules:
       {!activePosition ? (
         <button 
           className={styles.newPositionButton}
-         /* onClick={createTestPosition} */
          onClick={handleTradeIASimu}
         >
           Open AI Trading
@@ -203,7 +200,7 @@ Rules:
               <p>The AI will analyze market conditions to identify trading opportunities. If favorable conditions are detected, it will automatically open simulated trading positions.</p>
               <p>{tradeIAMsg ? tradeIAMsg : 'Waiting for AI signal...'}</p>
               <div className={styles.tradeIATime}>
-                <button className={styles.closeButton} onClick={tradeIASimu}>{isLoading ? 'Loading...' : 'Try'}</button>
+                <button className={styles.closeButton} onClick={tradeIASimu}>{isLoading || isReading ? 'Loading...' : 'Try'}</button>
               <button 
                 className={styles.closeButton} 
                 onClick={() => setTradeIA(false)}

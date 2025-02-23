@@ -34,7 +34,7 @@ export default function Loader({ onLoadingComplete, currentPrice }: LoaderProps)
 
   const handleStart = async () => {
     setIsLoading(true);
-    await sleep(2000); // Attendre 2 seconde avant de commencer le trading
+    await sleep(2000); //  3 seconde 
     onLoadingComplete();
     await speakUpdate(currentPrice, 0, language, "pqHfZKP75CvOlQylNhV4");
    

@@ -5,7 +5,6 @@ import TradingChart from "@/components/TradingChart";
 import { useEffect, useState } from "react";
 import { CandlestickData, UTCTimestamp } from "lightweight-charts";
 import Loader from "@/components/Loader";
-import { FaRegCommentDots } from "react-icons/fa";
 import AIChatSidebar from "@/components/AIChatSidebar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";

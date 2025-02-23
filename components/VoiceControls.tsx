@@ -69,14 +69,13 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
     }
   }, [handleSpeak, isPlaying]);
 
-  // Utiliser useRef pour stocker la version la plus récente de handleAutoSpeak
   const handleAutoSpeakRef = useRef(handleAutoSpeak);
   useEffect(() => {
     handleAutoSpeakRef.current = handleAutoSpeak;
   }, [handleAutoSpeak]);
    useEffect(() => {
     if (isAutoMode) {
-      // Appeler immédiatement la version stockée dans useRef
+
       handleAutoSpeakRef.current();
 
       // Configurer l'intervalle avec la version stockée dans useRef
@@ -138,7 +137,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
           <option value="en">English</option>
           <option value="fr">Français</option>
         </select>
-        
+
         {language === 'en' ? (
         <select 
           className={styles.voiceButton} 

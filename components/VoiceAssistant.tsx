@@ -64,7 +64,7 @@ export const VoiceAssistant = ({ price, change24h, isAutoMode, interval, languag
   const [isPlaying, setIsPlaying] = useState(false);
 
   const speak = useCallback(async () => {
-    if (isPlaying) return; // Éviter les appels multiples
+    if (isPlaying) return; 
     
     setIsPlaying(true);
     await speakUpdate(price, change24h, language, voice);
@@ -74,7 +74,7 @@ export const VoiceAssistant = ({ price, change24h, isAutoMode, interval, languag
   useEffect(() => {
     if (isAutoMode && !timerId) {
       const intervalMs = interval * 60 * 1000;
-      speak(); // Premier appel
+      speak(); 
 
       const timer = setInterval(speak, intervalMs);
       setTimerId(timer);
@@ -91,7 +91,7 @@ export const VoiceAssistant = ({ price, change24h, isAutoMode, interval, languag
     }
   }, [isAutoMode, interval, speak]);
 
-  // Nettoyer l'intervalle quand le composant est démonté
+
   useEffect(() => {
     return () => {
       if (timerId) {

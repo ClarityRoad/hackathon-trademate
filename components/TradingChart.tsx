@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createChart, ColorType, CandlestickData, IChartApi, IPriceLine, ISeriesApi } from 'lightweight-charts';
 import styles from '../styles/tradingchart.module.css';
-import VoiceControls from './VoiceControls';
 import TradingSimulation from './TradingSimulation';
 import { TradingPosition } from './TradingSimulation';
 
@@ -22,7 +21,7 @@ interface TradingChartProps {
   onVoiceChange: (voiceId: string) => void;
 }
 
-export default function TradingChart({ data, marketInfo, language, voice, onLanguageChange, onVoiceChange }: TradingChartProps) {
+export default function TradingChart({ data, marketInfo, language }: TradingChartProps) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const candleSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);

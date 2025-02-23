@@ -66,7 +66,6 @@ export default function TradingSimulation({ currentPrice, onPositionChange,  dat
     console.log('🚀 Starting AI trading simulation...');
     setIsLoading(true);
     setTradeIAMsg('');
-    setSubtitlesText('');
     
     try {
       console.log('📊 Sending market data to API:', {
@@ -104,9 +103,11 @@ Rules:
           
           if (matches) {
             console.log('✅ Valid signal format detected, creating position...');
-            const [ type, entryPrice, takeProfit, stopLoss] = matches;
+            const [_, type, entryPrice, takeProfit, stopLoss] = matches;
+            
             
             console.log('🔍 Parsed values:', {
+              test: _,
               type,
               entryPrice: Number(entryPrice),
               takeProfit: Number(takeProfit),
@@ -126,7 +127,7 @@ Rules:
             setTradeIAMsg("Trading opportunity detected!");
             setActivePosition(newPosition);
             
-            const message = `The AI has detected a ${newPosition.type} opportunity. The entry price is ${newPosition.entryPrice}, the take profit is ${newPosition.takeProfit} and the stop loss is ${newPosition.stopLoss}.`;
+            const message = `The AI has detected a ${newPosition.type} Trading opportunity. The entry price is ${newPosition.entryPrice}, the take profit is ${newPosition.takeProfit} and the stop loss is ${newPosition.stopLoss}.`;
             setSubtitlesText(message);
             setIsReading(true);
             setTradeIA(false);

@@ -108,13 +108,13 @@
   left: 10;
   cursor: pointer;
   font-size: 20px;
-  margin-left: 5px;
+  margin-right: 5px;
 } 
 
 .copyIcon {
   position: absolute;
   bottom: -25;
-  left: 40;
+  left: 50;
   cursor: pointer;
   font-size: 20px;
   margin-left: 20px;

@@ -25,7 +25,7 @@
 ### Installation
 1. Clone the repository:
 
-   git clone https://github.com/yourusername/trademate.git
+   git clone [https://github.com/yourusername/trademate.git](https://github.com/ClarityRoad/hackathon-trademate.git)
    
 2. Navigate to the project directory:
 

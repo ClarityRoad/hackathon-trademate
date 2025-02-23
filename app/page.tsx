@@ -120,11 +120,6 @@ export default function Home() {
     return () => ws.close();
   }, []);
 
-  const marketData = {
-    marketInfo,
-    chartData
-  };
-
   const handleChatOpen = () => {
     setIsChatOpen(true);
   };

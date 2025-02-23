@@ -5,7 +5,7 @@ import styles from '../styles/tradingchart.module.css';
 import { speakUpdate } from './VoiceAssistant';
 import Subtitles from './Subtitles';
 import { FiVolume2, FiGlobe, FiClock } from 'react-icons/fi';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { FaAngleDown } from 'react-icons/fa';
 interface VoiceControlsProps {
   price: number;
   change24h: number;
@@ -104,7 +104,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
 
   // UseEffect pour fermer la modal si on clique en dehors
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = () => {
       if (autoTradingModal) {
         setAutoTradingModal(false);
       }
@@ -158,7 +158,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
         <button 
           className={styles.voiceButton}
           onClick={handleSpeak}
-          disabled={isPlaying || isAutoMode}
+          disabled={isPlaying || isAutoMode || voice === '' || language === '' }
         >
           {language === 'en' ? '🎙️ Try Voice' : '🎙️ Essayer la voix'}
         </button>
@@ -168,6 +168,7 @@ export default function VoiceControls({ price, change24h, language, voice, onLan
           <button 
               className={`${styles.toggleButton} ${isAutoMode ? styles.active : ''}`}
               onClick={() => setIsAutoMode(!isAutoMode)}
+              disabled={voice === '' || language === ''}
             >
                {isAutoMode ? 'ON' : 'OFF'}
               <span className={styles.toggleTrack}>

@@ -7,21 +7,75 @@ import { FaMicrophone } from 'react-icons/fa';
 import axios from 'axios';
 import { AiFillSound } from "react-icons/ai";
 import { IoCopy } from "react-icons/io5";
-import { ElevenLabsClient } from "elevenlabs";
 import { VoiceMessageAssistant } from './VoiceAssistant';
-
-
+import { CandlestickData } from 'lightweight-charts';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
+interface MarketData {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+
+interface MarketInfo {
+  high: number;
+  low: number;
+  volume: number;
+  lastPrice: number;
+  change24h: number;
+}
+
 interface AIChatSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  data: any;
-  marketInfo: any;
+  data: CandlestickData[];
+  marketInfo: {
+    high: number;
+    low: number;
+    volume: number;
+    lastPrice: number;
+    change24h: number;
+  };
+}
+
+// Ajoutez cette interface pour le type de reconnaissance vocale
+interface WebkitSpeechRecognition {
+  continuous: boolean;
+  lang: string;
+  interimResults: boolean;
+  onstart: () => void;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  onerror: (event: SpeechRecognitionError) => void;
+  onend: () => void;
+  start: () => void;
+  stop: () => void;
+}
+
+interface SpeechRecognitionError {
+  error: string;
+  message?: string;
+}
+
+interface SpeechRecognitionResult {
+  transcript: string;
+  isFinal: boolean;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionEvent {
+  results: SpeechRecognitionResultList;
+  resultIndex: number;
 }
 
 export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIChatSidebarProps) {
@@ -35,7 +89,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [threadId, setThreadId] = useState<string | null>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<WebkitSpeechRecognition | null>(null);
   const [copyIconRotating, setCopyIconRotating] = useState<number | null>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +131,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
       if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
         console.log('webkitSpeechRecognition est disponible');
         try {
-          // @ts-ignore
+          // @ts-expect-error
           const recognition = new webkitSpeechRecognition();
           recognition.continuous = false; 
           recognition.lang = 'fr-FR';
@@ -88,17 +142,17 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
             setIsListening(true);
           };
 
-          recognition.onresult = (event: any) => {
+          recognition.onresult = (event: SpeechRecognitionEvent) => {
             console.log('Résultat reçu:', event);
             const transcript = Array.from(event.results)
-              .map((result: any) => result[0])
-              .map((result: any) => result.transcript)
+              .map((result: SpeechRecognitionResult) => result)
+              .map((result: SpeechRecognitionResult) => result.transcript)
               .join('');
             console.log('Transcript:', transcript);
             setInput(prev => prev + ' ' + transcript);
           };
 
-          recognition.onerror = (event: any) => {
+          recognition.onerror = (event: SpeechRecognitionError) => {
             console.log('Erreur détaillée:', {
               error: event.error,
               message: event.message,
@@ -287,7 +341,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
         ))}
         {isLoading && (
           <div className={styles.loading}>
-            L'assistant réfléchit...
+            L&lsquo;assistant réfléchit...
           </div>
         )}
       </div>

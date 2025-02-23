@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
-import { createChart, ColorType, CandlestickData, IChartApi, IPriceLine } from 'lightweight-charts';
+import { createChart, ColorType, CandlestickData, IChartApi, IPriceLine, ISeriesApi } from 'lightweight-charts';
 import styles from '../styles/tradingchart.module.css';
 import VoiceControls from './VoiceControls';
 import TradingSimulation from './TradingSimulation';
@@ -25,7 +25,7 @@ interface TradingChartProps {
 export default function TradingChart({ data, marketInfo, language, voice, onLanguageChange, onVoiceChange }: TradingChartProps) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
-  const candleSeriesRef = useRef<any>(null);
+  const candleSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const positionLinesRef = useRef<{entry?: IPriceLine, tp?: IPriceLine, sl?: IPriceLine}>({});
   const [activePosition, setActivePosition] = useState<TradingPosition | null>(null);
 
@@ -133,7 +133,7 @@ export default function TradingChart({ data, marketInfo, language, voice, onLang
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [data]);
+  }, [data, activePosition]);
 
   return (
     <div className={styles.tradingContainer}>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react';
 import styles from '../styles/subtitles.module.css';
 
 interface SubtitlesProps {

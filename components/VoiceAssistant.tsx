@@ -74,10 +74,9 @@ export const VoiceAssistant = ({ price, change24h, isAutoMode, interval, languag
   useEffect(() => {
     if (isAutoMode && !timerId) {
       const intervalMs = interval * 60 * 1000;
-      const Fivemin = 5 * 60 * 1000; // 5 minutes
       speak(); // Premier appel
 
-      const timer = setInterval(speak, Fivemin);
+      const timer = setInterval(speak, intervalMs);
       setTimerId(timer);
 
       return () => {

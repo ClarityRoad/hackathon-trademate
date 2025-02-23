@@ -15,22 +15,6 @@ interface Message {
   content: string;
 }
 
-interface MarketData {
-  time: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-}
-
-interface MarketInfo {
-  high: number;
-  low: number;
-  volume: number;
-  lastPrice: number;
-  change24h: number;
-}
-
 interface AIChatSidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -131,7 +115,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo }: AIC
       if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
         console.log('webkitSpeechRecognition est disponible');
         try {
-          // @ts-expect-error
+          // @ts-expect-error webkitSpeechRecognition is not typed
           const recognition = new webkitSpeechRecognition();
           recognition.continuous = false; 
           recognition.lang = 'fr-FR';

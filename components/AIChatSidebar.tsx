@@ -119,7 +119,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
           // @ts-expect-error webkitSpeechRecognition is not typed
           const recognition = new webkitSpeechRecognition();
           recognition.continuous = false; 
-          recognition.lang = 'fr-FR';
+          recognition.lang = 'en-US';
           recognition.interimResults = false; 
 
           recognition.onstart = () => {

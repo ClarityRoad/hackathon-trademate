@@ -105,7 +105,7 @@
 .soundIcon {
   position: absolute;
   bottom: -25;
-  left: -5;
+  left: 10;
   cursor: pointer;
   font-size: 20px;
   margin-left: 10px;
@@ -114,7 +114,7 @@
 .copyIcon {
   position: absolute;
   bottom: -25;
-  left: 35;
+  left: 40;
   cursor: pointer;
   font-size: 20px;
   margin-left: 10px;

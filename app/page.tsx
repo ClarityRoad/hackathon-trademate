@@ -132,7 +132,15 @@ export default function Home() {
         />
       ) : (
         <>
-          <Header handleChatOpen={handleChatOpen} />
+          <Header 
+            handleChatOpen={handleChatOpen}
+            price={marketInfo.lastPrice}
+            change24h={marketInfo.change24h}
+            language={language}
+            voice={voice}
+            onLanguageChange={setLanguage}
+            onVoiceChange={setVoice}
+          />
           
           <div className={styles.chartContainer}>
             <TradingChart 

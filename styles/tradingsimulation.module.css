@@ -1,0 +1,48 @@
+.newPositionButton {
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.newPositionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.positionForm {
+  margin-top: 20px;
+}
+
+.activePosition {
+  display: flex;
+  flex-direction: row;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.activePosition > div {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.closeButton {
+  background: linear-gradient(135deg, #ff3d00, #ff6e40);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+}
+
+.closeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+} 

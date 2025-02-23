@@ -1,0 +1,31 @@
+.subtitlesContainer {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 90%;
+  max-width: 900px;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.subtitlesText {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px 32px;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+} 

@@ -1,101 +1,170 @@
-import Image from "next/image";
+'use client'
+
+import styles from "@/styles/home.module.css";
+import TradingChart from "@/components/TradingChart";
+import { useEffect, useState } from "react";
+import { CandlestickData, UTCTimestamp } from "lightweight-charts";
+import Loader from "@/components/Loader";
+import { FaRegCommentDots } from "react-icons/fa";
+import AIChatSidebar from "@/components/AIChatSidebar";
+import Footer from "@/components/Footer";
+
+// Type pour les données brutes de Binance
+interface BinanceKline {
+  0: number;    // Open time
+  1: string;    // Open
+  2: string;    // High
+  3: string;    // Low
+  4: string;    // Close
+  5: string;    // Volume
+  // ... autres champs si nécessaires
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [chartData, setChartData] = useState<CandlestickData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [marketInfo, setMarketInfo] = useState({
+    high: 0,
+    low: 0,
+    volume: 0,
+    lastPrice: 0,
+    change24h: 0,
+  });
+  const [language, setLanguage] = useState('en');
+  const [voice, setVoice] = useState('');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      try {
+        const response = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=100');
+        const data = await response.json();
+        
+        const historicalData: CandlestickData[] = data.map((candle: BinanceKline) => ({
+          time: (candle[0] / 1000) as UTCTimestamp,
+          open: parseFloat(candle[1]),
+          high: parseFloat(candle[2]),
+          low: parseFloat(candle[3]),
+          close: parseFloat(candle[4]),
+        }));
+
+        setChartData(historicalData);
+
+        const initialMarketInfo = calculateMarketInfo(historicalData);
+        setMarketInfo(initialMarketInfo);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données historiques:', error);
+      }
+    };
+
+    const calculateMarketInfo = (data: CandlestickData[]) => {
+      if (data.length === 0) return { high: 0, low: 0, volume: 0, lastPrice: 0, change24h: 0 };
+
+      const lastCandle = data[data.length - 1];
+      
+      const recentCandles = data.slice(-100);
+      const firstCandle = recentCandles[0];
+
+      // Calculer le volume total sur les 100 dernières bougies
+      const totalVolume = recentCandles.reduce((acc, candle: CandlestickData & { volume?: number }) => {
+        const candleVolume = parseFloat(String(candle.volume || 0));
+        return acc + candleVolume;
+      }, 0);
+
+      // Calculer la variation de prix sur les 100 dernières bougies
+      const priceChange = ((lastCandle.close - firstCandle.open) / firstCandle.open) * 100;
+
+      return {
+        high: Math.max(...recentCandles.map(candle => candle.high)),
+        low: Math.min(...recentCandles.map(candle => candle.low)),
+        volume: totalVolume,
+        lastPrice: lastCandle.close,
+        change24h: priceChange,
+      };
+    };
+
+    fetchHistoricalData();
+
+    const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const candlestick = data.k;
+      const newCandle: CandlestickData = {
+        time: (candlestick.t / 1000) as UTCTimestamp,
+        open: parseFloat(candlestick.o),
+        high: parseFloat(candlestick.h),
+        low: parseFloat(candlestick.l),
+        close: parseFloat(candlestick.c),
+      };
+      
+      setChartData(prev => {
+        const index = prev.findIndex(candle => candle.time === newCandle.time);
+        let updatedData;
+        
+        if (index !== -1) {
+          updatedData = [...prev];
+          updatedData[index] = newCandle;
+        } else {
+          updatedData = [...prev, newCandle].slice(-100).sort((a, b) => 
+            (a.time as number) - (b.time as number)
+          );
+        }
+
+        const updatedMarketInfo = calculateMarketInfo(updatedData);
+        setMarketInfo(updatedMarketInfo);
+
+        return updatedData;
+      });
+    };
+
+    return () => ws.close();
+  }, []);
+
+  const marketData = {
+    marketInfo,
+    chartData
+  };
+
+  const handleChatOpen = () => {
+    setIsChatOpen(true);
+  };
+
+  return (
+    <div className={styles.container}>
+      {isLoading ? (
+        <Loader 
+          onLoadingComplete={() => setIsLoading(false)} 
+          currentPrice={marketInfo.lastPrice}
+        />
+      ) : (
+        <>
+          <div className={styles.iacontainer}>
+            <button 
+              className={styles.iaButton}
+              onClick={handleChatOpen}
+            >
+              <FaRegCommentDots />
+            </button>
+          </div>
+          <div className={styles.chartContainer}>
+            <TradingChart 
+              data={chartData} 
+              marketInfo={marketInfo}
+              language={language}
+              voice={voice}
+              onLanguageChange={setLanguage}
+              onVoiceChange={setVoice}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          </div>
+          <AIChatSidebar 
+            isOpen={isChatOpen} 
+            onClose={() => setIsChatOpen(false)} 
+            data={chartData}
+            marketInfo={marketInfo}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Footer />
+        </>
+      )}
+    </div>  
   );
 }

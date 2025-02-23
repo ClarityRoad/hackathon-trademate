@@ -1,0 +1,430 @@
+.tradingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 24px;
+    width: 100%;
+    border-radius: 24px;
+    margin-top: 20px;
+  }
+
+  .voiceCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;  
+    align-items: center;
+    width: 100%;
+  }
+  
+ 
+  .marketInfo {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+  }
+  
+  .infoCard {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .infoCard h3 {
+    margin: 0 0 24px 0;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  .infoGrid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  
+  .infoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .infoItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  
+  .infoItem span:first-child {
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  
+  .value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+  }
+  
+  .positive {
+    color: #00c853;
+  }
+  
+  .negative {
+    color: #ff3d00;
+  }
+  
+  
+  
+  .voiceControls {
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    z-index: 1000;
+  }
+
+
+
+  .voiceButton {
+    width: auto;
+    min-width: fit-content;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
+    border-radius: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+  
+  .voiceButton:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #333, #1a1a1a);
+  }
+  
+  .voiceButton.active {
+    background: linear-gradient(135deg, #00c853, #00e676);
+  }
+  
+  .autoMode {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    border-radius: 14px;
+    padding: 12px 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    width: auto;
+    min-width: fit-content;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .autoMode:hover {
+    background: linear-gradient(135deg, #333, #1a1a1a);
+  }
+  
+  .autoModeHeader {
+   
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .autoModeHeader h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #ffffff;
+    flex-grow: 1;
+  }
+
+
+  
+  .icon {
+    font-size: 1.2rem;
+    color: #ffffff;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .toggleButton {
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+  }
+  
+  .toggleButton.active {
+    color: white;
+  }
+  
+  .toggleTrack {
+    display: block;
+    width: 40px;
+    height: 20px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    border: 1px solid #000;
+  }
+  
+  .toggleThumb {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+  
+  .toggleButton.active .toggleThumb {
+    transform: translateX(20px);
+    background: #00c853;
+  }
+  
+  .settingsGrid {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-10px);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    border-radius: 14px;
+    padding: 12px 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #ffffff;
+  }
+  
+  .settingsGrid.visible {
+    max-height: 500px;
+    opacity: 1;
+    color: #ffffff;
+    transform: translateY(0);
+  }
+  
+  .settingItem {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .settingItem label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #ffffff;
+  }
+  
+  .volumeSlider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00c853;
+    cursor: pointer;
+  }
+  
+  .languageSelect {
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    width: 100%;
+    background: white;
+    color: #000;
+  }
+  
+  .advancedSettings {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .checkboxInput {
+    width: 16px;
+    height: 16px;
+    accent-color: #00c853;
+  }
+  
+  .intervalInput {
+    width: 70px;
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: white;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin: 0 8px;
+  }
+  
+  .intervalInput:focus {
+    border-color: #000000;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .intervalInput:hover:not(:disabled) {
+    border-color: #000000;
+  }
+  
+  .intervalInput:disabled {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+  }
+  
+  /* Style pour cacher les flèches du input number */
+  .intervalInput::-webkit-outer-spin-button,
+  .intervalInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .intervalInput[type=number] {
+    -moz-appearance: textfield;
+    appearance: none;
+  }
+  
+  .voiceButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .chartSection {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .chart {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  
+  .automodeactive {
+    transform: rotate(180deg);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+  .autoTradingModal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .autoTradingModalContent {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .autoTradingDescription {
+    padding: 32px;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .autoTradingDescription h4 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+  }
+
+  .autoTradingDescription p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    white-space: pre-line;
+    margin-bottom: 24px;
+  }
+
+  .closeButton {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .closeButton:hover {
+    background: linear-gradient(135deg, #333, #1a1a1a);
+    transform: translateY(-2px);
+  }

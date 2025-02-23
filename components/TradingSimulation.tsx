@@ -53,7 +53,7 @@ export default function TradingSimulation({ currentPrice, onPositionChange,  dat
   };
 
   const speakMessage = async (message: string) => {
-    console.log('message', message);
+
     try {
       await VoiceMessageAssistant(message, "21m00Tcm4TlvDq8ikWAM");
       await new Promise(resolve => setTimeout(resolve, 1000));  
@@ -63,16 +63,12 @@ export default function TradingSimulation({ currentPrice, onPositionChange,  dat
   };
 
   const tradeIASimu = async () => {
-    console.log('🚀 Starting AI trading simulation...');
+
     setIsLoading(true);
     setTradeIAMsg('');
     
     try {
-      console.log('📊 Sending market data to API:', {
-        dataPoints: data.length,
-        lastCandle: data[data.length - 1],
-        marketInfo
-      });
+
 
       const response = await axios.post('/api/trade', {
         input: `Analyze the BTC/USDT market data and determine if there is a trading opportunity.
@@ -93,16 +89,13 @@ Rules:
       });
 
       const responseData = await response.data;
-      console.log('📡 API Response received:', responseData);
       
       if (responseData && responseData.signal) {
         try {
-          console.log('🎯 Processing trading signal:', responseData.signal);
           const signal = responseData.signal;
           const matches = signal.match(/TYPE: (Long|Short), EP: (\d+\.?\d*), TP: (\d+\.?\d*), SL: (\d+\.?\d*)/);
           
           if (matches) {
-            console.log('✅ Valid signal format detected, creating position...');
             const [_, type, entryPrice, takeProfit, stopLoss] = matches;
             
             
@@ -123,7 +116,7 @@ Rules:
               timestamp: Date.now()
             };
             
-            console.log('📈 New position created:', newPosition);
+
             setTradeIAMsg("Trading opportunity detected!");
             setActivePosition(newPosition);
             
@@ -150,7 +143,7 @@ Rules:
         setIsLoading(false);
         setTradeIAMsg('No trading signal received');
         await speakMessage('The AI did not find any opportunity');
-        console.log('ℹ️ No trading signal received');
+
       }
     } catch (error) {
       console.error('🔥 Error in tradeIASimu:', error);

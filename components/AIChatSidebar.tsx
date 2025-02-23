@@ -97,13 +97,13 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
 
   // Fonction pour la reconnaissance vocale
   const VocalFunction = () => {
-    console.log('Initialisation de la reconnaissance vocale...');
+
     
 
     async function checkMicrophoneAccess() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        console.log('Accès au microphone accordé');
+
         stream.getTracks().forEach(track => track.stop()); 
         initializeSpeechRecognition();
       } catch (err) {
@@ -114,7 +114,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
 
     function initializeSpeechRecognition() {
       if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-        console.log('webkitSpeechRecognition est disponible');
+
         try {
           // @ts-expect-error webkitSpeechRecognition is not typed
           const recognition = new webkitSpeechRecognition();
@@ -123,26 +123,21 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
           recognition.interimResults = false; 
 
           recognition.onstart = () => {
-            console.log('Reconnaissance vocale démarrée');
+
             setIsListening(true);
           };
 
           recognition.onresult = (event: SpeechRecognitionEvent) => {
-            console.log('Résultat reçu:', event);
+
             const transcript = Array.from(event.results)
               .map((result: SpeechRecognitionResult) => result)
               .map((result: SpeechRecognitionResult) => result.transcript)
               .join('');
-            console.log('Transcript:', transcript);
+
             setInput(prev => prev + ' ' + transcript);
           };
 
           recognition.onerror = (event: SpeechRecognitionError) => {
-            console.log('Erreur détaillée:', {
-              error: event.error,
-              message: event.message,
-              eventDetails: JSON.stringify(event)
-            });
 
             switch (event.error) {
               case 'network':
@@ -162,7 +157,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
           };
 
           recognition.onend = () => {
-            console.log('Reconnaissance vocale terminée');
+
             setIsListening(false);
           };
 
@@ -171,7 +166,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
           console.error('Erreur lors de l\'initialisation:', error);
         }
       } else {
-        console.log('webkitSpeechRecognition n\'est pas disponible');
+
       }
     }
 
@@ -186,7 +181,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
 
   // Fonction pour le bouton de reconnaissance vocale
   const toggleListening = () => {
-    console.log('Toggle listening appelé, état actuel:', isListening);
+
     VocalFunction();
     if (!recognitionRef.current) {
       console.error('Recognition non initialisée');
@@ -196,11 +191,11 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
 
     try {
       if (isListening) {
-        console.log('Arrêt de la reconnaissance');
+
         recognitionRef.current.stop();
         setIsListening(false);
       } else {
-        console.log('Démarrage de la reconnaissance');
+
         setInput('');
         recognitionRef.current.start();
       }
@@ -243,7 +238,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
 
     try {
       const aiResponse = await aiCall(input);
-      console.log('Réponse reçue du serveur:', aiResponse); 
+
       
       const assistantMessage: Message = {
         role: 'assistant',
@@ -271,7 +266,7 @@ export default function AIChatSidebar({ isOpen, onClose, data, marketInfo, langu
   // Fonction pour lire le message assistant
   const [isReading, setIsReading] = useState(false);
   const speakMessage = async (message: string) => {
-    console.log('message', message);
+
     try {
       setIsReading(true);
       await VoiceMessageAssistant(message, "21m00Tcm4TlvDq8ikWAM");

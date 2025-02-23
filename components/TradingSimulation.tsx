@@ -119,18 +119,20 @@ Rules:
 
             setTradeIAMsg("Trading opportunity detected!");
             setActivePosition(newPosition);
-            
-            const message = `The AI has detected a ${newPosition.type} Trading opportunity. The entry price is ${newPosition.entryPrice}, the take profit is ${newPosition.takeProfit} and the stop loss is ${newPosition.stopLoss}.`;
-            setSubtitlesText(message);
-            setIsReading(true);
             setTradeIA(false);
-            await speakMessage(message);
-            setIsReading(false);
+           
             
 
             if (onPositionChange) {
               onPositionChange(newPosition);
             }
+
+            const message = `The AI has detected a ${newPosition.type} Trading opportunity. The entry price is ${newPosition.entryPrice}, the take profit is ${newPosition.takeProfit} and the stop loss is ${newPosition.stopLoss}.`;
+            setSubtitlesText(message);
+            setIsReading(true);
+            
+            await speakMessage(message);
+            setIsReading(false);
 
           } else {
             console.error('❌ Invalid signal format:', signal);
